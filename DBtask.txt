@@ -1,0 +1,288 @@
+1) mysql> SELECT ALL* FROM Shippers;
++-----------+------------------+----------------+
+| ShipperID | ShipperName      | Phone          |
++-----------+------------------+----------------+
+|         1 | Speedy Express   | (503) 555-9831 |
+|         2 | United Package   | (503) 555-3199 |
+|         3 | Federal Shipping | (503) 555-9931 |
++-----------+------------------+----------------+
+3 rows in set (0.47 sec)
+
+2) mysql> SELECT * FROM Employees LIMIT 3;
++------------+-----------+-----------+------------+------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| EmployeeID | LastName  | FirstName | BirthDate  | Photo      | Notes                                                                                                                                                                                                                                                                                                                                                                                                                       |
++------------+-----------+-----------+------------+------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|          1 | Davolio   | Nancy     | 1968-12-08 | EmpID1.pic | Education includes a BA in psychology from Colorado State University. She also completed (The Art of the Cold Call). Nancy is a member of 'Toastmasters International'.                                                                                                                                                                                                                                                     |
+|          2 | Fuller    | Andrew    | 1952-02-19 | EmpID2.pic | Andrew received his BTS commercial and a Ph.D. in international marketing from the University of Dallas. He is fluent in French and Italian and reads German. He joined the company as a sales representative, was promoted to sales manager and was then named vice president of sales. Andrew is a member of the Sales Management Roundtable, the Seattle Chamber of Commerce, and the Pacific Rim Importers Association. |
+|          3 | Leverling | Janet     | 1963-08-30 | EmpID3.pic | Janet has a BS degree in chemistry from Boston College). She has also completed a certificate program in food retailing management. Janet was hired as a sales associate and was promoted to sales representative.                                                                                                                                                                                                          |
++------------+-----------+-----------+------------+------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+3 rows in set (0.02 sec)
+
+3) mysql> SELECT BirthDate, FirstName, LastName FROM Employees LIMIT 3;
++------------+-----------+-----------+
+| BirthDate  | FirstName | LastName  |
++------------+-----------+-----------+
+| 1968-12-08 | Nancy     | Davolio   |
+| 1952-02-19 | Andrew    | Fuller    |
+| 1963-08-30 | Janet     | Leverling |
++------------+-----------+-----------+
+3 rows in set (0.02 sec)
+
+4) mysql> SELECT FirstName, LastName FROM Employees WHERE BirthDate BETWEEN '1958-1-1' AND '1959-1-1';
++-----------+----------+
+| FirstName | LastName |
++-----------+----------+
+| Margaret  | Peacock  |
+| Laura     | Callahan |
++-----------+----------+
+2 rows in set (0.03 sec)
+
+5) mysql> SELECT * FROM Products WHERE Price BETWEEN '23' AND '25';
++-----------+------------------------------+------------+------------+-------------------+-------+
+| ProductID | ProductName                  | SupplierID | CategoryID | Unit              | Price |
++-----------+------------------------------+------------+------------+-------------------+-------+
+|         6 | Grandma's Boysenberry Spread |          3 |          2 | 12 - 8 oz jars    | 25.00 |
+|        14 | Tofu                         |          6 |          7 | 40 - 100 g pkgs.  | 23.25 |
+|        55 | Pbtu chinois                 |         25 |          6 | 24 boxes x 2 pies | 24.00 |
++-----------+------------------------------+------------+------------+-------------------+-------+
+3 rows in set (2.76 sec)
+
+6) mysql> SELECT * FROM Products WHERE Price = (SELECT MIN(Price) FROM Products);
++-----------+-------------+------------+------------+-------+-------+
+| ProductID | ProductName | SupplierID | CategoryID | Unit  | Price |
++-----------+-------------+------------+------------+-------+-------+
+|        33 | Geitost     |         15 |          4 | 500 g |  2.50 |
++-----------+-------------+------------+------------+-------+-------+
+1 row in set (0.02 sec)
+
+7) mysql> SELECT * FROM Products WHERE Price = (SELECT MAX(Price) FROM Products);
++-----------+---------------+------------+------------+--------------------+--------+
+| ProductID | ProductName   | SupplierID | CategoryID | Unit               | Price  |
++-----------+---------------+------------+------------+--------------------+--------+
+|        38 | Cute de Blaye |         18 |          1 | 12 - 75 cl bottles | 263.50 |
++-----------+---------------+------------+------------+--------------------+--------+
+1 row in set (0.03 sec)
+
+8) mysql> SELECT * FROM Products WHERE Unit = '10 pkgs.';
++-----------+-------------+------------+------------+----------+-------+
+| ProductID | ProductName | SupplierID | CategoryID | Unit     | Price |
++-----------+-------------+------------+------------+----------+-------+
+|        48 | Chocolade   |         22 |          3 | 10 pkgs. | 12.75 |
++-----------+-------------+------------+------------+----------+-------+
+1 row in set (0.02 sec)
+
+9) mysql> SELECT Address FROM Suppliers WHERE City IN('Tokyo', 'Frankfurt', 'Osaka');
++---------------------------+
+| Address                   |
++---------------------------+
+| 9-8 Sekimai Musashino-shi |
+| 92 Setsuko Chuo-ku        |
+| Bogenallee 51             |
++---------------------------+
+3 rows in set (0.02 sec)
+
+10) mysql> SELECT ProductName, Price FROM Products WHERE ProductName like 'G%' and Price > '37';
++------------------------+-------+
+| ProductName            | Price |
++------------------------+-------+
+| Gnocchi di nonna Alice | 38.00 |
++------------------------+-------+
+1 row in set (0.01 sec)
+
+11) mysql> SELECT Country FROM Suppliers WHERE Country like 'S%' and (LENGTH(Country) = 5);
++---------+
+| Country |
++---------+
+| Spain   |
++---------+
+1 row in set (0.01 sec)
+
+12) mysql> SELECT sum(Price) AS SUMM FROM Products WHERE ProductName like '%od%';
++--------+
+| SUMM   |
++--------+
+| 131.00 |
++--------+
+1 row in set (0.02 sec)
+
+13) mysql> SELECT ROUND(AVG(Price), 2) AS SUMM FROM Products WHERE Unit LIKE '%bottles';
++-------+
+| SUMM  |
++-------+
+| 38.75 |
++-------+
+1 row in set (0.07 sec)
+
+14) mysql> SELECT COUNT(CustomerID) AS Countt FROM Customers WHERE Country NOT IN ('Germany', 'France');
++--------+
+| Countt |
++--------+
+|     69 |
++--------+
+1 row in set (0.04 sec)
+
+15) mysql> SELECT FirstName FROM Employees WHERE BirthDate >= '1968-1-1' ORDER BY FirstName;
++-----------+
+| FirstName |
++-----------+
+| Anne      |
+| Nancy     |
++-----------+
+2 rows in set (0.01 sec)
+
+16.1) mysql> SELECT ProductName FROM Products WHERE Price = '13' UNION SELECT ProductName FROM Products WHERE Price = '15';
++---------------------------------+
+| ProductName                     |
++---------------------------------+
+| Original Frankfurter grine Soae |
+| Outback Lager                   |
+| Rud Kaviar                      |
++---------------------------------+
+3 rows in set (0.01 sec)
+
+16.2) mysql> SELECT ProductName FROM Products WHERE Price IN ('13', '15') ORDER BY Price;
++---------------------------------+
+| ProductName                     |
++---------------------------------+
+| Original Frankfurter grine Soae |
+| Outback Lager                   |
+| Rud Kaviar                      |
++---------------------------------+
+3 rows in set (0.01 sec)
+
+17) mysql> SELECT Products.ProductName, Suppliers.SupplierName FROM voodoo.Products JOIN voodoo.Suppliers on Products.SupplierID = Suppliers.SupplierID WHERE Products.ProductName like '__m%';
++---------------------------+-----------------------------------+
+| ProductName               | SupplierName                      |
++---------------------------+-----------------------------------+
+| Gumbur Gummiburchen       | Heli Swaren GmbH & Co. KG         |
+| Camembert Pierrot         | Gai puturage                      |
+| Wimmers gute Semmelknudel | Plutzer Lebensmittelgroumurkte AG |
++---------------------------+-----------------------------------+
+3 rows in set (0.02 sec)
+
+18.1) mysql> SELECT Employees.FirstName, Employees.LastName FROM voodoo.Employees Join voodoo.Orders on Employees.EmployeeID = Orders.EmployeeID Where OrderDate = '1996-11-27';
++-----------+-----------+
+| FirstName | LastName  |
++-----------+-----------+
+| Janet     | Leverling |
++-----------+-----------+
+1 row in set (0.01 sec)
+
+18.2) mysql> SELECT Employees.FirstName, Employees.LastName FROM voodoo.Employees INNER Join voodoo.Orders on Employees.EmployeeID = Orders.EmployeeID Where OrderDate = '1996-11-27';
++-----------+-----------+
+| FirstName | LastName  |
++-----------+-----------+
+| Janet     | Leverling |
++-----------+-----------+
+1 row in set (0.02 sec)
+
+19) mysql> SELECT Products.ProductName, Suppliers.SupplierName, Products.Price FROM voodoo.Products JOIN voodoo.Suppliers on Products.SupplierID = Suppliers.SupplierID
+    -> WHERE Products.Price > 27 AND Suppliers.SupplierName LIKE 'Grandma Kelly%';
++---------------------------------+---------------------------+-------+
+| ProductName                     | SupplierName              | Price |
++---------------------------------+---------------------------+-------+
+| Uncle Bob's Organic Dried Pears | Grandma Kelly's Homestead | 30.00 |
+| Northwoods Cranberry Sauce      | Grandma Kelly's Homestead | 40.00 |
++---------------------------------+---------------------------+-------+
+2 rows in set (0.02 sec)
+
+20.1) mysql> SELECT sum(Quantity) AS SUMM FROM voodoo.Products JOIN voodoo.OrderDetails on Products.ProductID = OrderDetails.ProductID WHERE ProductName like 'Queso Cabrales';
++------+
+| SUMM |
++------+
+|  182 |
++------+
+1 row in set (0.03 sec)
+
+20.2) mysql> SELECT sum(Quantity) AS SUMM FROM voodoo.Products INNER JOIN voodoo.OrderDetails on Products.ProductID = OrderDetails.ProductID WHERE ProductName like 'Queso Cabrales';
++------+
+| SUMM |
++------+
+|  182 |
++------+
+1 row in set (0.03 sec)
+
+21) mysql> SELECT Orders.OrderID, Customers.CustomerName, Employees.FirstName, Employees.LastName FROM Employees, Orders, Customers where Customers.CustomerID = Orders.CustomerID and Employees.EmployeeID = Orders.EmployeeID and Customers.Address = 'Ekergatan 24';
++---------+----------------+-----------+-----------+
+| OrderID | CustomerName   | FirstName | LastName  |
++---------+----------------+-----------+-----------+
+|   10264 | Folk och fe HB | Michael   | Suyama    |
+|   10327 | Folk och fe HB | Andrew    | Fuller    |
+|   10378 | Folk och fe HB | Steven    | Buchanan  |
+|   10434 | Folk och fe HB | Janet     | Leverling |
++---------+----------------+-----------+-----------+
+4 rows in set (0.02 sec)
+
+22.1)mysql> SELECT Orders.OrderID, Customers.CustomerName, CONCAT (Employees.FirstName, ' ', Employees.LastName) AS EmployeeName
+    -> FROM Orders
+    -> LEFT JOIN Customers
+    -> ON Orders.CustomerID = Customers.CustomerID
+    -> LEFT JOIN Employees
+    -> ON Orders.EmployeeID = Employees.EmployeeID
+    -> WHERE Customers.Address = 'Ekergatan 24'
+    -> ORDER BY Orders.OrderID;
++---------+----------------+-----------------+
+| OrderID | CustomerName   | EmployeeName    |
++---------+----------------+-----------------+
+|   10264 | Folk och fe HB | Michael Suyama  |
+|   10327 | Folk och fe HB | Andrew Fuller   |
+|   10378 | Folk och fe HB | Steven Buchanan |
+|   10434 | Folk och fe HB | Janet Leverling |
++---------+----------------+-----------------+
+4 rows in set (0.03 sec)
+
+22.2) mysql> SELECT Orders.OrderID, Customers.CustomerName, CONCAT (Employees.FirstName, ' ', Employees.LastName) AS EmployeeName FROM Employees, Orders, Customers where Customers.CustomerID = Orders.CustomerID and Employees.EmployeeID = Orders.EmployeeID and Customers.Address = 'Ekergatan 24';
++---------+----------------+-----------------+
+| OrderID | CustomerName   | EmployeeName    |
++---------+----------------+-----------------+
+|   10264 | Folk och fe HB | Michael Suyama  |
+|   10327 | Folk och fe HB | Andrew Fuller   |
+|   10378 | Folk och fe HB | Steven Buchanan |
+|   10434 | Folk och fe HB | Janet Leverling |
++---------+----------------+-----------------+
+4 rows in set (0.02 sec)
+
+23.1)mysql> SELECT Orders.OrderID, Orders.OrderDate, Products.ProductName FROM Orders, Products, OrderDetails WHERE OrderDetails.OrderID = Orders.OrderID AND OrderDetails.ProductID = Products.ProductID AND Orders.OrderDate BETWEEN '1997-1-1' AND '1998-1-1' AND (LENGTH(Products.ProductName) < 5);
++---------+------------+-------------+
+| OrderID | OrderDate  | ProductName |
++---------+------------+-------------+
+|   10409 | 1997-01-09 | Tofu        |
+|   10412 | 1997-01-13 | Tofu        |
+|   10427 | 1997-01-27 | Tofu        |
++---------+------------+-------------+
+3 rows in set (0.02 sec)
+
+23.2) mysql> SELECT Orders.OrderID, Orders.OrderDate, Products.ProductName
+    -> FROM ((Orders
+    -> INNER JOIN OrderDetails ON Orders.OrderID = OrderDetails.OrderID)
+    -> INNER JOIN Products ON OrderDetails.ProductID = Products.ProductID)
+    -> WHERE Orders.OrderDate BETWEEN '1997-1-1' AND '1998-1-1' AND (LENGTH(Products.ProductName) < 5);
++---------+------------+-------------+
+| OrderID | OrderDate  | ProductName |
++---------+------------+-------------+
+|   10409 | 1997-01-09 | Tofu        |
+|   10412 | 1997-01-13 | Tofu        |
+|   10427 | 1997-01-27 | Tofu        |
++---------+------------+-------------+
+3 rows in set (0.02 sec)
+
+24) SELECT Categories.CategoryName, Products.ProductName FROM Categories, Products, Customers, Orders, OrderDetails WHERE Customers.CustomerName = 'Blondel pere et fils' AND Customers.CustomerID = Orders.CustomerID AND Orders.OrderID = OrderDetails.OrderID AND OrderDetails.ProductID = Products.ProductID AND Categories.CategoryID = Products.CategoryID AND Categories.CategoryName LIKE '% %';
++----------------+------------------------+
+| CategoryName   | ProductName            |
++----------------+------------------------+
+| Dairy Products | Mozzarella di Giovanni |
++----------------+------------------------+
+1 row in set (0.04 sec)
+
+25) mysql> SELECT COUNT(DISTINCT c.CustomerID) AS Buyers
+    -> FROM Customers c
+    -> JOIN Orders o ON c.CustomerID = o.CustomerID
+    -> JOIN OrderDetails od ON o.OrderID = od.OrderID
+    -> JOIN Products p ON od.ProductID = p.ProductID
+    -> WHERE p.ProductName IN ('Queso Cabrales', 'Gustaf''s Knäckebröd', 'Louisiana Fiery Hot Pepper Sauce', 'Schoggi Schokolade', 'Gnocchi di nonna Alice');
++--------+
+| Buyers |
++--------+
+|     25 |
++--------+
+1 row in set (0.03 sec)
